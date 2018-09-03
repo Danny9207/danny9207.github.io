@@ -154,7 +154,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="java内存模型"><a href="#java内存模型" class="headerlink" title="java内存模型"></a>java内存模型</h2><h3 id="emsp-内存模型"><a href="#emsp-内存模型" class="headerlink" title="&emsp;内存模型"></a>&emsp;内存模型</h3><p>JMM定义了线程和主内存之间的抽象关系：<br><br>线程之间的共享变量存储在主内存中，每一个线程都有一个私有的本地内存，<br>本地内存存储了该线程用来读/写共享变量的副本。<br><br>JMM通过控制主内存与每个线程的本地内存之间的交互，来为java程序提供内存可见性的保证。</p>
+        <h2 id="java内存模型"><a href="#java内存模型" class="headerlink" title="java内存模型"></a>java内存模型</h2><h3 id="emsp-内存模型"><a href="#emsp-内存模型" class="headerlink" title="&emsp;内存模型"></a>&emsp;内存模型</h3><p>JMM定义了线程和主内存之间的抽象关系：<br>线程之间的共享变量存储在主内存中，每一个线程都有一个私有的本地内存，<br>本地内存存储了该线程用来读/写共享变量的副本。<br>JMM通过控制主内存与每个线程的本地内存之间的交互，来为java程序提供内存可见性的保证。</p>
 <h3 id="emsp-volatile"><a href="#emsp-volatile" class="headerlink" title="&emsp;volatile"></a>&emsp;volatile</h3><h4 id="emsp-emsp-特性"><a href="#emsp-emsp-特性" class="headerlink" title="&emsp;&emsp;特性"></a>&emsp;&emsp;特性</h4><ul>
 <li>可见性。对一个volatile变量的读，总是能看到对这个volatile变量最后的写入。</li>
 <li>原子性。对于单个volatile变量的读写具有原子性，但类似于volatile++的复合操作不具有原子性。</li>
