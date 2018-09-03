@@ -134,6 +134,61 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-java-concurrent-one" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/03/java-concurrent-one/">java并发-java内存模型</a>
+    </h1>
+  
+
+        
+        <a href="/2018/09/03/java-concurrent-one/" class="archive-article-date">
+  	<time datetime="2018-09-03T13:33:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="java内存模型"><a href="#java内存模型" class="headerlink" title="java内存模型"></a>java内存模型</h2><h3 id="emsp-内存模型"><a href="#emsp-内存模型" class="headerlink" title="&emsp;内存模型"></a>&emsp;内存模型</h3><p>JMM定义了线程和主内存之间的抽象关系：<br><br>线程之间的共享变量存储在主内存中，每一个线程都有一个私有的本地内存，<br>本地内存存储了该线程用来读/写共享变量的副本。<br><br>JMM通过控制主内存与每个线程的本地内存之间的交互，来为java程序提供内存可见性的保证。</p>
+<h3 id="emsp-volatile"><a href="#emsp-volatile" class="headerlink" title="&emsp;volatile"></a>&emsp;volatile</h3><h4 id="emsp-emsp-特性"><a href="#emsp-emsp-特性" class="headerlink" title="&emsp;&emsp;特性"></a>&emsp;&emsp;特性</h4><ul>
+<li>可见性。对一个volatile变量的读，总是能看到对这个volatile变量最后的写入。</li>
+<li>原子性。对于单个volatile变量的读写具有原子性，但类似于volatile++的复合操作不具有原子性。</li>
+</ul>
+<h4 id="emsp-emsp-写-读的内存语义"><a href="#emsp-emsp-写-读的内存语义" class="headerlink" title="&emsp;&emsp;写-读的内存语义"></a>&emsp;&emsp;写-读的内存语义</h4><h4 id="emsp-emsp-内存语义实现原理"><a href="#emsp-emsp-内存语义实现原理" class="headerlink" title="&emsp;&emsp;内存语义实现原理"></a>&emsp;&emsp;内存语义实现原理</h4><h3 id="emsp-synchronized"><a href="#emsp-synchronized" class="headerlink" title="&emsp;synchronized"></a>&emsp;synchronized</h3><h4 id="emsp-emsp-特性-1"><a href="#emsp-emsp-特性-1" class="headerlink" title="&emsp;&emsp;特性"></a>&emsp;&emsp;特性</h4><h4 id="emsp-emsp-释放-获取的内存语义"><a href="#emsp-emsp-释放-获取的内存语义" class="headerlink" title="&emsp;&emsp;释放-获取的内存语义"></a>&emsp;&emsp;释放-获取的内存语义</h4><h4 id="emsp-emsp-内存语义实现原理-1"><a href="#emsp-emsp-内存语义实现原理-1" class="headerlink" title="&emsp;&emsp;内存语义实现原理"></a>&emsp;&emsp;内存语义实现原理</h4><h3 id="emsp-emsp-final"><a href="#emsp-emsp-final" class="headerlink" title="&emsp;&emsp;final"></a>&emsp;&emsp;final</h3>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/09/03/java-concurrent-one/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+  
     <article id="post-hello-world" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
