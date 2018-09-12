@@ -8,17 +8,17 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>java并发-java内存模型 | cui&#39;s space</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="java内存模型&amp;emsp;内存模型JMM定义了线程和主内存之间的抽象关系：线程之间的共享变量存储在主内存中，每一个线程都有一个私有的本地内存，本地内存存储了该线程用来读/写共享变量的副本。JMM通过控制主内存与每个线程的本地内存之间的交互，来为java程序提供内存可见性的保证。 &amp;emsp;volatile&amp;emsp;&amp;emsp;特性 可见性。对一个volatile变量的读，总是能看到对这个vo">
+  <meta name="description" content="java内存模型&amp;emsp;内存模型JMM定义了线程和主内存之间的抽象关系：线程之间的共享变量存储在主内存中，每一个线程都有一个私有的本地内存，本地内存存储了该线程用来读/写共享变量的副本。JMM通过控制主内存与每个线程的本地内存之间的交互，来为java程序提供内存可见性的保证。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="java并发-java内存模型">
 <meta property="og:url" content="http://yoursite.com/2018/09/03/java-concurrent-one/index.html">
 <meta property="og:site_name" content="cui&#39;s space">
-<meta property="og:description" content="java内存模型&amp;emsp;内存模型JMM定义了线程和主内存之间的抽象关系：线程之间的共享变量存储在主内存中，每一个线程都有一个私有的本地内存，本地内存存储了该线程用来读/写共享变量的副本。JMM通过控制主内存与每个线程的本地内存之间的交互，来为java程序提供内存可见性的保证。 &amp;emsp;volatile&amp;emsp;&amp;emsp;特性 可见性。对一个volatile变量的读，总是能看到对这个vo">
+<meta property="og:description" content="java内存模型&amp;emsp;内存模型JMM定义了线程和主内存之间的抽象关系：线程之间的共享变量存储在主内存中，每一个线程都有一个私有的本地内存，本地内存存储了该线程用来读/写共享变量的副本。JMM通过控制主内存与每个线程的本地内存之间的交互，来为java程序提供内存可见性的保证。">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-09-03T14:44:29.354Z">
+<meta property="og:updated_time" content="2018-09-12T14:43:03.391Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java并发-java内存模型">
-<meta name="twitter:description" content="java内存模型&amp;emsp;内存模型JMM定义了线程和主内存之间的抽象关系：线程之间的共享变量存储在主内存中，每一个线程都有一个私有的本地内存，本地内存存储了该线程用来读/写共享变量的副本。JMM通过控制主内存与每个线程的本地内存之间的交互，来为java程序提供内存可见性的保证。 &amp;emsp;volatile&amp;emsp;&amp;emsp;特性 可见性。对一个volatile变量的读，总是能看到对这个vo">
+<meta name="twitter:description" content="java内存模型&amp;emsp;内存模型JMM定义了线程和主内存之间的抽象关系：线程之间的共享变量存储在主内存中，每一个线程都有一个私有的本地内存，本地内存存储了该线程用来读/写共享变量的副本。JMM通过控制主内存与每个线程的本地内存之间的交互，来为java程序提供内存可见性的保证。">
   
     <link rel="alternative" href="/atom.xml" title="cui&#39;s space" type="application/atom+xml">
   
@@ -157,11 +157,33 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="java内存模型"><a href="#java内存模型" class="headerlink" title="java内存模型"></a>java内存模型</h2><h3 id="emsp-内存模型"><a href="#emsp-内存模型" class="headerlink" title="&emsp;内存模型"></a>&emsp;内存模型</h3><p>JMM定义了线程和主内存之间的抽象关系：<br>线程之间的共享变量存储在主内存中，每一个线程都有一个私有的本地内存，<br>本地内存存储了该线程用来读/写共享变量的副本。<br>JMM通过控制主内存与每个线程的本地内存之间的交互，来为java程序提供内存可见性的保证。</p>
+<a id="more"></a>
 <h3 id="emsp-volatile"><a href="#emsp-volatile" class="headerlink" title="&emsp;volatile"></a>&emsp;volatile</h3><h4 id="emsp-emsp-特性"><a href="#emsp-emsp-特性" class="headerlink" title="&emsp;&emsp;特性"></a>&emsp;&emsp;特性</h4><ul>
 <li>可见性。对一个volatile变量的读，总是能看到对这个volatile变量最后的写入。</li>
 <li>原子性。对于单个volatile变量的读写具有原子性，但类似于volatile++的复合操作不具有原子性。</li>
 </ul>
-<h4 id="emsp-emsp-写-读的内存语义"><a href="#emsp-emsp-写-读的内存语义" class="headerlink" title="&emsp;&emsp;写-读的内存语义"></a>&emsp;&emsp;写-读的内存语义</h4><h4 id="emsp-emsp-内存语义实现原理"><a href="#emsp-emsp-内存语义实现原理" class="headerlink" title="&emsp;&emsp;内存语义实现原理"></a>&emsp;&emsp;内存语义实现原理</h4><h3 id="emsp-synchronized"><a href="#emsp-synchronized" class="headerlink" title="&emsp;synchronized"></a>&emsp;synchronized</h3><h4 id="emsp-emsp-特性-1"><a href="#emsp-emsp-特性-1" class="headerlink" title="&emsp;&emsp;特性"></a>&emsp;&emsp;特性</h4><h4 id="emsp-emsp-释放-获取的内存语义"><a href="#emsp-emsp-释放-获取的内存语义" class="headerlink" title="&emsp;&emsp;释放-获取的内存语义"></a>&emsp;&emsp;释放-获取的内存语义</h4><h4 id="emsp-emsp-内存语义实现原理-1"><a href="#emsp-emsp-内存语义实现原理-1" class="headerlink" title="&emsp;&emsp;内存语义实现原理"></a>&emsp;&emsp;内存语义实现原理</h4><h3 id="emsp-emsp-final"><a href="#emsp-emsp-final" class="headerlink" title="&emsp;&emsp;final"></a>&emsp;&emsp;final</h3>
+<h4 id="emsp-emsp-写-读的内存语义"><a href="#emsp-emsp-写-读的内存语义" class="headerlink" title="&emsp;&emsp;写-读的内存语义"></a>&emsp;&emsp;写-读的内存语义</h4><ul>
+<li>当写一个volatile变量时，JMM会把该线程对应的本地内存中的共享变量值刷新到主内存。</li>
+<li>当读一个volatile变量时，JMM会把该行程对应的本地内存的值置为无效，线程接下来将从主内存中读取共享变量。</li>
+</ul>
+<h4 id="emsp-emsp-内存语义实现原理"><a href="#emsp-emsp-内存语义实现原理" class="headerlink" title="&emsp;&emsp;内存语义实现原理"></a>&emsp;&emsp;内存语义实现原理</h4><p>为了实现volatile的内存语义，编译器在生成字节码时，会在指令序列中插入内存屏障来禁止特定类型的处理器重排序。<br>下面是基于保守策略的JMM内存屏障插入策略：</p>
+<ul>
+<li>在每一个volatile写操作的前面插入一个StoreStore屏障。</li>
+<li>在每一个volatile写操作的后面插入一个StoreLoad屏障。</li>
+<li>在每一个volatile读操作的后面插入一个LoadLoad屏障。</li>
+<li>在每一个volatile读操作的后面插入一个LoadStore屏障。</li>
+</ul>
+<h3 id="emsp-synchronized"><a href="#emsp-synchronized" class="headerlink" title="&emsp;synchronized"></a>&emsp;synchronized</h3><h4 id="emsp-emsp-特性-1"><a href="#emsp-emsp-特性-1" class="headerlink" title="&emsp;&emsp;特性"></a>&emsp;&emsp;特性</h4><p>锁可以让临界区互斥执行。</p>
+<h4 id="emsp-emsp-释放-获取的内存语义"><a href="#emsp-emsp-释放-获取的内存语义" class="headerlink" title="&emsp;&emsp;释放-获取的内存语义"></a>&emsp;&emsp;释放-获取的内存语义</h4><ul>
+<li>当线程释放锁时，JMM会把该线程对应的本地内存中的共享变量刷新到主内存中。</li>
+<li>当线程获取锁时，JMM会把该线程对应的本地内存置为无效。从而使线程中的代码必须从主内存中读取共享变量。 </li>
+</ul>
+<h4 id="emsp-emsp-内存语义实现原理-1"><a href="#emsp-emsp-内存语义实现原理-1" class="headerlink" title="&emsp;&emsp;内存语义实现原理"></a>&emsp;&emsp;内存语义实现原理</h4><ol>
+<li>利用volatile变量的读-写所具有的的内存语义。</li>
+<li>利用CAS所附带的volatile读和volatile写的内存语义。</li>
+</ol>
+<h3 id="emsp-emsp-final"><a href="#emsp-emsp-final" class="headerlink" title="&emsp;&emsp;final"></a>&emsp;&emsp;final</h3><p><em>待完成（有可能完不成:sleeping:）</em></p>
+
       
 
       
