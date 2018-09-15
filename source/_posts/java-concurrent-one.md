@@ -5,7 +5,7 @@ tags:
 ---
 ## java内存模型
 
-### &emsp;内存模型
+### 1. 内存模型
 
 JMM定义了线程和主内存之间的抽象关系：
 线程之间的共享变量存储在主内存中，每一个线程都有一个私有的本地内存，
@@ -14,7 +14,7 @@ JMM通过控制主内存与每个线程的本地内存之间的交互，来为ja
 
 <!-- more -->
 
-### &emsp;volatile
+### 2. volatile
 
 #### &emsp;&emsp;特性
 
@@ -36,7 +36,7 @@ JMM通过控制主内存与每个线程的本地内存之间的交互，来为ja
 * 在每一个volatile读操作的后面插入一个LoadLoad屏障。
 * 在每一个volatile读操作的后面插入一个LoadStore屏障。
 
-### &emsp;synchronized
+### 3. synchronized
 
 #### &emsp;&emsp;特性
 
@@ -52,6 +52,6 @@ JMM通过控制主内存与每个线程的本地内存之间的交互，来为ja
 1. 利用volatile变量的读-写所具有的的内存语义。
 2. 利用CAS所附带的volatile读和volatile写的内存语义。
 
-### &emsp;&emsp;final
+### 4. final
 
-*待完成（有可能完不成）* :sleeping:
+*待完成* :sleeping:
