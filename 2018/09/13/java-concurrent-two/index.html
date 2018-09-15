@@ -6,19 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Hello World | cui&#39;s space</title>
+  <title>java并发-并发编程基础 | cui&#39;s space</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.">
+  <meta name="description" content="##java并发编程基础 1. 线程简介线程都拥有各自的计数器、堆栈和局部变量等属性，并且能够访问共享的内存变量。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://yoursite.com/2018/07/21/hello-world/index.html">
+<meta property="og:title" content="java并发-并发编程基础">
+<meta property="og:url" content="http://yoursite.com/2018/09/13/java-concurrent-two/index.html">
 <meta property="og:site_name" content="cui&#39;s space">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.">
+<meta property="og:description" content="##java并发编程基础 1. 线程简介线程都拥有各自的计数器、堆栈和局部变量等属性，并且能够访问共享的内存变量。">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-09-15T15:45:44.613Z">
+<meta property="og:image" content="http://yoursite.com/2018/09/13/java-concurrent-two/thread-status.png">
+<meta property="og:updated_time" content="2018-09-15T15:26:22.112Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.">
+<meta name="twitter:title" content="java并发-并发编程基础">
+<meta name="twitter:description" content="##java并发编程基础 1. 线程简介线程都拥有各自的计数器、堆栈和局部变量等属性，并且能够访问共享的内存变量。">
+<meta name="twitter:image" content="http://yoursite.com/2018/09/13/java-concurrent-two/thread-status.png">
   
     <link rel="alternative" href="/atom.xml" title="cui&#39;s space" type="application/atom+xml">
   
@@ -136,37 +138,34 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-hello-world" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-java-concurrent-two" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Hello World
+      java并发-并发编程基础
     </h1>
   
 
         
-        <a href="/2018/07/21/hello-world/" class="archive-article-date">
-  	<time datetime="2018-07-21T08:36:43.995Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-21</time>
+        <a href="/2018/09/13/java-concurrent-two/" class="archive-article-date">
+  	<time datetime="2018-09-13T13:29:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-13</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+        <p>##java并发编程基础</p>
+<h3 id="1-线程简介"><a href="#1-线程简介" class="headerlink" title="1. 线程简介"></a>1. 线程简介</h3><p>线程都拥有各自的计数器、堆栈和局部变量等属性，并且能够访问共享的内存变量。</p>
 <a id="more"></a>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
+<ul>
+<li>线程状态：</li>
+</ul>
+<p>NEW：初始状态，线程被构建，但是还没有调用<code>start()</code>方法。<br>RUNNABLE：运行状态，java将操作系统中的“就绪”和“运行”两种状态统称为“运行中”。此时处于<code>Thread.start()</code>方法调用之后。<br>处于WAITING，TIME_WAITING状态的线程在调用<code>Object.notify()</code>，<code>Object.notifyAll()</code>，<code>LockSupport.unpark(Thread)</code>方法之后，也会进入RUNNABLE状态。<br>BLOCKED：阻塞状态，表示线程阻塞于锁。此时线程等待进入<code>synchronized</code>代码块或方法。获取到锁后进入RUNNABLE状态。<br>WAITING：等待状态，进入该状态表示当前线程需要其他线程做出一些特定的动作（通知或中断），此时处于<code>Object.wait()</code>，<code>Object.join()</code>或<code>LockSupport.park()</code>方法调用之后。<br>TIME_WAITING：超时等待状态，它与WAITING不同，它可以在指定的时间自行返回。此时处于<code>Thread.sleep(long)</code>，<code>Object.wait(long)</code>，<br><code>Thread.join(long)</code>，<code>LockSupport.parkNanos()</code>，<code>LockSupport.parkUntil()</code>方法调用之后。<br>TERMINATED：终止状态，表示线程已经执行完毕。<br><img src="/2018/09/13/java-concurrent-two/thread-status.png" alt=""></p>
+<h3 id="2-启动和终止线程"><a href="#2-启动和终止线程" class="headerlink" title="2. 启动和终止线程"></a>2. 启动和终止线程</h3><h3 id="3-线程间通信"><a href="#3-线程间通信" class="headerlink" title="3. 线程间通信"></a>3. 线程间通信</h3><h3 id="4-线程应用实例"><a href="#4-线程应用实例" class="headerlink" title="4. 线程应用实例"></a>4. 线程应用实例</h3>
       
 
       
@@ -250,7 +249,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2018/07/21/hello-world/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2018/09/13/java-concurrent-two/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -264,15 +263,11 @@
   
 <nav id="article-nav">
   
-    <a href="/2018/09/03/java-concurrent-one/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          java并发-java内存模型
-        
-      </div>
-    </a>
   
+    <a href="/2018/09/03/java-concurrent-one/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">java并发-java内存模型</div>
+      <i class="icon-circle-right"></i>
+    </a>
   
 </nav>
 
