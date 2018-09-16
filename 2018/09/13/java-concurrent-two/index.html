@@ -8,18 +8,18 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>java并发-并发编程基础 | cui&#39;s space</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="##java并发编程基础 1. 线程简介线程都拥有各自的计数器、堆栈和局部变量等属性，并且能够访问共享的内存变量。">
+  <meta name="description" content="java并发编程基础1. 线程简介线程都拥有各自的计数器、堆栈和局部变量等属性，并且能够访问共享的内存变量。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="java并发-并发编程基础">
 <meta property="og:url" content="http://yoursite.com/2018/09/13/java-concurrent-two/index.html">
 <meta property="og:site_name" content="cui&#39;s space">
-<meta property="og:description" content="##java并发编程基础 1. 线程简介线程都拥有各自的计数器、堆栈和局部变量等属性，并且能够访问共享的内存变量。">
+<meta property="og:description" content="java并发编程基础1. 线程简介线程都拥有各自的计数器、堆栈和局部变量等属性，并且能够访问共享的内存变量。">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://yoursite.com/2018/09/13/java-concurrent-two/thread-status.png">
-<meta property="og:updated_time" content="2018-09-15T15:26:22.112Z">
+<meta property="og:updated_time" content="2018-09-16T14:22:36.688Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java并发-并发编程基础">
-<meta name="twitter:description" content="##java并发编程基础 1. 线程简介线程都拥有各自的计数器、堆栈和局部变量等属性，并且能够访问共享的内存变量。">
+<meta name="twitter:description" content="java并发编程基础1. 线程简介线程都拥有各自的计数器、堆栈和局部变量等属性，并且能够访问共享的内存变量。">
 <meta name="twitter:image" content="http://yoursite.com/2018/09/13/java-concurrent-two/thread-status.png">
   
     <link rel="alternative" href="/atom.xml" title="cui&#39;s space" type="application/atom+xml">
@@ -158,14 +158,31 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>##java并发编程基础</p>
-<h3 id="1-线程简介"><a href="#1-线程简介" class="headerlink" title="1. 线程简介"></a>1. 线程简介</h3><p>线程都拥有各自的计数器、堆栈和局部变量等属性，并且能够访问共享的内存变量。</p>
+        <h2 id="java并发编程基础"><a href="#java并发编程基础" class="headerlink" title="java并发编程基础"></a>java并发编程基础</h2><h3 id="1-线程简介"><a href="#1-线程简介" class="headerlink" title="1. 线程简介"></a>1. 线程简介</h3><p>线程都拥有各自的计数器、堆栈和局部变量等属性，并且能够访问共享的内存变量。</p>
 <a id="more"></a>
 <ul>
 <li>线程状态：</li>
 </ul>
 <p>NEW：初始状态，线程被构建，但是还没有调用<code>start()</code>方法。<br>RUNNABLE：运行状态，java将操作系统中的“就绪”和“运行”两种状态统称为“运行中”。此时处于<code>Thread.start()</code>方法调用之后。<br>处于WAITING，TIME_WAITING状态的线程在调用<code>Object.notify()</code>，<code>Object.notifyAll()</code>，<code>LockSupport.unpark(Thread)</code>方法之后，也会进入RUNNABLE状态。<br>BLOCKED：阻塞状态，表示线程阻塞于锁。此时线程等待进入<code>synchronized</code>代码块或方法。获取到锁后进入RUNNABLE状态。<br>WAITING：等待状态，进入该状态表示当前线程需要其他线程做出一些特定的动作（通知或中断），此时处于<code>Object.wait()</code>，<code>Object.join()</code>或<code>LockSupport.park()</code>方法调用之后。<br>TIME_WAITING：超时等待状态，它与WAITING不同，它可以在指定的时间自行返回。此时处于<code>Thread.sleep(long)</code>，<code>Object.wait(long)</code>，<br><code>Thread.join(long)</code>，<code>LockSupport.parkNanos()</code>，<code>LockSupport.parkUntil()</code>方法调用之后。<br>TERMINATED：终止状态，表示线程已经执行完毕。<br><img src="/2018/09/13/java-concurrent-two/thread-status.png" alt=""></p>
-<h3 id="2-启动和终止线程"><a href="#2-启动和终止线程" class="headerlink" title="2. 启动和终止线程"></a>2. 启动和终止线程</h3><h3 id="3-线程间通信"><a href="#3-线程间通信" class="headerlink" title="3. 线程间通信"></a>3. 线程间通信</h3><h3 id="4-线程应用实例"><a href="#4-线程应用实例" class="headerlink" title="4. 线程应用实例"></a>4. 线程应用实例</h3>
+<h3 id="2-启动和终止线程"><a href="#2-启动和终止线程" class="headerlink" title="2. 启动和终止线程"></a>2. 启动和终止线程</h3><p><em>待完成</em></p>
+<h3 id="3-线程间通信"><a href="#3-线程间通信" class="headerlink" title="3. 线程间通信"></a>3. 线程间通信</h3><ul>
+<li>等待通知范式</li>
+</ul>
+<ol>
+<li>等待方遵循的原则：</li>
+<li>)获取对象的锁。</li>
+<li>)如果条件不满足则调用对象的wait()方法，被通知后仍要检查条件。</li>
+<li>)条件满足则执行对应的逻辑。<br>代码：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">synchronized(对象) &#123;</span><br><span class="line">	while(条件不满足) &#123;</span><br><span class="line">		对象.wait();</span><br><span class="line">	&#125;</span><br><span class="line">	处理对应的逻辑</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>通知方遵循的原则：</li>
+<li>)获取对象的锁。</li>
+<li>)改变条件。</li>
+<li>)通知所有等待在对象上的线程。<br>代码：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">synchronized(对象)&#123;</span><br><span class="line">	改变条件</span><br><span class="line">	对象.notifyAll();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="4-线程应用实例"><a href="#4-线程应用实例" class="headerlink" title="4. 线程应用实例"></a>4. 线程应用实例</h3>
       
 
       
