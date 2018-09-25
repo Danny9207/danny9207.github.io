@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="cui&#39;s space">
 <meta property="og:description" content="java中的锁围绕两个方面：“使用”，“实现”。">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-09-25T14:06:44.398Z">
+<meta property="og:updated_time" content="2018-09-25T14:13:57.283Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java并发-java中的锁">
 <meta name="twitter:description" content="java中的锁围绕两个方面：“使用”，“实现”。">
@@ -276,6 +276,12 @@
 <li>acquireQueued(final Node node, int arg)的主要操作有两个：<br>一是判断是否当前节点的前驱节点是head节点，并且成功获取到了同步状态；则将当前节点设置为head节点，并将前驱节点设置为null。最后是返回并退出自旋，继续执行线程任务。<br>二是根据当前节点的前驱节点的waitStatus是否是SIGNAL来决定是否park当前节点中的线程。这里有一段将前驱节点的waitStatus设置为SIGNAL的操作，所以同步队列中的任意节点的前驱节点的waitStatus为SIGNAL，则任意节点中的线程就会park。</li>
 <li>release(int arg)的作用是调用tryRelease(int arg)将state设置为0，如果成功则唤醒（unpark）在队列自旋中park的，并且是head节点的后继节点中的线程。</li>
 </ol>
+<ul>
+<li>参考测试代码：</li>
+</ul>
+<blockquote>
+<p><a href="https://github.com/legend9207/concurrent_code/blob/master/src/com/roocon/thread/ta4/Main.java" target="_blank" rel="noopener">https://github.com/legend9207/concurrent_code/blob/master/src/com/roocon/thread/ta4/Main.java</a></p>
+</blockquote>
 <h3 id="3-重入锁"><a href="#3-重入锁" class="headerlink" title="3. 重入锁"></a>3. 重入锁</h3><h3 id="4-读写锁"><a href="#4-读写锁" class="headerlink" title="4. 读写锁"></a>4. 读写锁</h3>
       
 
