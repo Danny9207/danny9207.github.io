@@ -6,15 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>cui&#39;s space</title>
+  <title>java并发-java中的锁 | cui&#39;s space</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="cui&#39;s space">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="java中的锁围绕两个方面：“使用”，“实现”。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java并发-java中的锁">
+<meta property="og:url" content="http://yoursite.com/2018/09/19/java-concurrent-three/index.html">
 <meta property="og:site_name" content="cui&#39;s space">
+<meta property="og:description" content="java中的锁围绕两个方面：“使用”，“实现”。">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-09-25T14:06:44.398Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="cui&#39;s space">
+<meta name="twitter:title" content="java并发-java中的锁">
+<meta name="twitter:description" content="java中的锁围绕两个方面：“使用”，“实现”。">
   
     <link rel="alternative" href="/atom.xml" title="cui&#39;s space" type="application/atom+xml">
   
@@ -132,16 +136,14 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-java-concurrent-three" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-java-concurrent-three" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/19/java-concurrent-three/">java并发-java中的锁</a>
+    <h1 class="article-title" itemprop="name">
+      java并发-java中的锁
     </h1>
   
 
@@ -155,170 +157,154 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="java中的锁"><a href="#java中的锁" class="headerlink" title="java中的锁"></a>java中的锁</h2><p>围绕两个方面：“使用”，“实现”。</p>
-        
-          <a class="article-more-a" href="/2018/09/19/java-concurrent-three/#more">more >></a>
-        
+<a id="more"></a>
+<h3 id="1-Lock接口"><a href="#1-Lock接口" class="headerlink" title="1. Lock接口"></a>1. Lock接口</h3><p>Lock接口提供了synchronized所不具备的特性：</p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>尝试非阻塞地获取锁</td>
+<td>当线程尝试获取锁，如果这一时刻锁没有被其他线程获取到，则成功获取到锁。</td>
+</tr>
+<tr>
+<td>能被中断的获取锁</td>
+<td>与synchronized不同，获取到锁的线程能够响应中断，当获取到锁的线程被中断，中断异常会被抛出，同时锁会被释放。</td>
+</tr>
+<tr>
+<td>超时获取锁</td>
+<td>在指定的时间内获取锁，如果时间到了仍无法获取锁，则返回。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="2-队列同步器（QAS）"><a href="#2-队列同步器（QAS）" class="headerlink" title="2. 队列同步器（QAS）"></a>2. 队列同步器（QAS）</h3><p>AbstractQueuedSynchronizer是用来构建锁或其他同步组件的基础框架，它使用一个int成员变量表示同步状态；通过内置的FIFO队列来完成资源获取线程的排队工作。</p>
+<ul>
+<li>使用</li>
+</ul>
+<p>自定义同步组件（CustomLock）需要聚合一个AQS的子类（SpecificSynchronizer）。<br>SpecificSynchronizer可重写的方法：</p>
+<table>
+<thead>
+<tr>
+<th>方法名称</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>protected boolean tryAcquire (int arg)</td>
+<td>独占式获取同步状态。实现该方法需要查询当前状态并判断同步状态是否符合预期，然后再进行 CAS 设置同步状态。</td>
+</tr>
+<tr>
+<td>protected boolean tryRelease (int arg)</td>
+<td>独占式释放同步状态。等待获取同步状态的线程将有机会获取同步状态。</td>
+</tr>
+<tr>
+<td>protected int tryAcquireShared (int arg)</td>
+<td>共享式获取同步状态。返回大于等于0的值，表示获取成功，反之获取失败。</td>
+</tr>
+<tr>
+<td>protected boolean tryReleaseShared (int arg)</td>
+<td>共享式释放同步状态。</td>
+</tr>
+<tr>
+<td>protected boolean isHeldExclusively()</td>
+<td>当前同步器是否在独占模式卜被线程占用，一般该方法表示是否被当前线程所独占。</td>
+</tr>
+</tbody>
+</table>
+<p>CustomLock可调用的SpecificSynchronizer提供的部分模板方法如下：</p>
+<table>
+<thead>
+<tr>
+<th>方法名称</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>void acquire (int arg)</td>
+<td>独占式获取同步状态。如果当前线程获取同步状态成功，则由该方法返回；否则，将会进入同步队列等待，该方法将会调用重写的tryAcquire(int arg)方法。</td>
+</tr>
+<tr>
+<td>void acquireInterruptibly (int arg)</td>
+<td>与acquire (int arg)相同，但是该方法响应中断，当前线程未获取到同步状态而进人同步队列中，如果当前线程被中断，则该方法会抛出InterruptedException并返回。</td>
+</tr>
+<tr>
+<td>boolean tryAcquireNanos (int arg, long nanos)</td>
+<td>在acquireInterruptibly (int arg)的基础上增加了超时限制，如果当前线程在超时时间内没有获取到同步状态，那么将会返回false，如果获取到了返回true。</td>
+</tr>
+<tr>
+<td>void acquireShared(int arg)</td>
+<td>共享式的获取同步状态，如果当前线程未获取到同步状态，将会进入同步队列等待，与独占式获取的主要区别是在同一时刻可以有多个线程获取到同步状态。</td>
+</tr>
+<tr>
+<td>void acquireSharedInterruptibly(int arg)</td>
+<td>与acquireShared(int arg)相同，该方法响应中断。</td>
+</tr>
+<tr>
+<td>boolean tryAcquireSharedNanos(int arg, long nanos)</td>
+<td>与acquireSharedInterruptibly(int arg)基础上增加了超时等待限制。</td>
+</tr>
+<tr>
+<td>boolean release(int arg)</td>
+<td>独占式释放同步状态，该方法会在释放同步状态后，将同步队列中第一个节点包含的线程唤醒。</td>
+</tr>
+<tr>
+<td>boolean releaseShared(int arg)</td>
+<td>共享式的释放同步状态。</td>
+</tr>
+<tr>
+<td>Collection<thread> getQueuedThreads()</thread></td>
+<td>获取等待在同步队列上的线程集合。</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>实现；独占式获取同步状态的关键点：</li>
+</ul>
+<ol>
+<li>AQS依赖内部的同步队列（一个FIFO的双向队列）来完成同步状态的管理。同步队列中节点（Node）用来保存获取同步状态失败的线程引用、等待状态以及前驱节点和后继节点。</li>
+<li>通过调用AQS的acquire(int arg)方法可以获取同步状态。</li>
+<li>首先调用SpecificSynchronizer实现的tryAcquire(int arg)，该方法保证线程安全的获取同步状态。</li>
+<li>如果获取同步状态失败，通过调用addWaiter(Node node)方法将该节点加入到同步队列的尾部。主要是有一段快速尝试在尾部添加节点的操作。</li>
+<li>在enq(final Node node)方法中，主要是通过CAS将节点正确地设置成尾节点。</li>
+<li>节点加入同步队列后，调用acquireQueued(final Node node, int arg)方法进入一个自旋的过程。每个节点（或者说每个线程）都在自省的观察；<br>当条件满足，获取到了同步状态，就会从自旋过程中退出；否则依旧停留在自旋过程中。</li>
+<li>acquireQueued(final Node node, int arg)的主要操作有两个：<br>一是判断是否当前节点的前驱节点是head节点，并且成功获取到了同步状态；则将当前节点设置为head节点，并将前驱节点设置为null。最后是返回并退出自旋，继续执行线程任务。<br>二是根据当前节点的前驱节点的waitStatus是否是SIGNAL来决定是否park当前节点中的线程。这里有一段将前驱节点的waitStatus设置为SIGNAL的操作，所以同步队列中的任意节点的前驱节点的waitStatus为SIGNAL，则任意节点中的线程就会park。</li>
+<li>release(int arg)的作用是调用tryRelease(int arg)将state设置为0，如果成功则唤醒（unpark）在队列自旋中park的，并且是head节点的后继节点中的线程。</li>
+</ol>
+<h3 id="3-重入锁"><a href="#3-重入锁" class="headerlink" title="3. 重入锁"></a>3. 重入锁</h3><h3 id="4-读写锁"><a href="#4-读写锁" class="headerlink" title="4. 读写锁"></a>4. 读写锁</h3>
       
 
       
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/09/19/java-concurrent-three/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-  
-    <article id="post-java-concurrent-two" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/13/java-concurrent-two/">java并发-并发编程基础</a>
-    </h1>
-  
-
-        
-        <a href="/2018/09/13/java-concurrent-two/" class="archive-article-date">
-  	<time datetime="2018-09-13T13:29:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-13</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="java并发编程基础"><a href="#java并发编程基础" class="headerlink" title="java并发编程基础"></a>java并发编程基础</h2><h3 id="1-线程简介"><a href="#1-线程简介" class="headerlink" title="1. 线程简介"></a>1. 线程简介</h3><p>线程都拥有各自的计数器、堆栈和局部变量等属性，并且能够访问共享的内存变量。</p>
-        
-          <a class="article-more-a" href="/2018/09/13/java-concurrent-two/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/09/13/java-concurrent-two/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-  
-    <article id="post-java-concurrent-one" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/03/java-concurrent-one/">java并发-java内存模型</a>
-    </h1>
-  
-
-        
-        <a href="/2018/09/03/java-concurrent-one/" class="archive-article-date">
-  	<time datetime="2018-09-03T13:33:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-03</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="java内存模型"><a href="#java内存模型" class="headerlink" title="java内存模型"></a>java内存模型</h2><h3 id="1-内存模型"><a href="#1-内存模型" class="headerlink" title="1. 内存模型"></a>1. 内存模型</h3><p>JMM定义了线程和主内存之间的抽象关系：<br>线程之间的共享变量存储在主内存中，每一个线程都有一个私有的本地内存，<br>本地内存存储了该线程用来读/写共享变量的副本。<br>JMM通过控制主内存与每个线程的本地内存之间的交互，来为java程序提供内存可见性的保证。</p>
-        
-          <a class="article-more-a" href="/2018/09/03/java-concurrent-one/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/09/03/java-concurrent-one/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-  
-    <article id="post-hello-world" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/21/hello-world/">Hello World</a>
-    </h1>
-  
-
-        
-        <a href="/2018/07/21/hello-world/" class="archive-article-date">
-  	<time datetime="2018-07-21T08:36:43.995Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-21</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-        
-          <a class="article-more-a" href="/2018/07/21/hello-world/#more">more >></a>
-        
-      
-
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>Yo<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/img/alipay.png">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
       
     </div>
     <div class="article-info article-info-index">
@@ -327,18 +313,74 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/07/21/hello-world/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2018/09/19/java-concurrent-three/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
 
-
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2018/09/13/java-concurrent-two/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">java并发-并发编程基础</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
 
 
 
@@ -346,7 +388,10 @@
 
 
   
+    <div class="duoshuo"></div>
   
+
+
 
 
           </div>
@@ -372,8 +417,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
