@@ -74,5 +74,8 @@ Collection<Thread> getQueuedThreads()|获取等待在同步队列上的线程集
 
 ### 3. 重入锁
 
+* tryAcquire增加了再次获取同步状态的逻辑：判断当前线程是否为获取锁的线程；如果是，则将同步状态的值增加并返回true，表示获取同步状态成功。
+
+* tryRelease会判断，在经过前面n-1次的tryRelease后；判断此次的同步状态是否为0，如果是，则将占有线程设为null，并返回true，表示释放成功。
 
 ### 4. 读写锁   
