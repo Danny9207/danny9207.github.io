@@ -79,3 +79,5 @@ Collection<Thread> getQueuedThreads()|获取等待在同步队列上的线程集
 * tryRelease会判断，在经过前面n-1次的tryRelease后；判断此次的同步状态是否为0，如果是，则将占有线程设为null，并返回true，表示释放成功。
 
 ### 4. 读写锁   
+
+*待完成*
