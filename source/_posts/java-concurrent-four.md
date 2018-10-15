@@ -20,7 +20,9 @@ tags:
 一个Segment里包含一个HashEntry数组，每个HashEntry是一个链表结构的元素。
 每个Segment守护着一个HashEntry数组里的元素，当对HashEntry数组进行修改时，必须获得与它对应的Segment锁。
 
-#### 组成算法
+（java8）
+
+#### 初始化及定位Segment
 
 *待完成*
 
