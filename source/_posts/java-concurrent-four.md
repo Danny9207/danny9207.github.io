@@ -31,6 +31,8 @@ tags:
 （java7）经过一次hash算法定位到Segment，再经过一次hash算法定位到HashEntry。
 基于volatile的内存语义，所以get操作没有加锁。
 
+（java8）
+
 #### put方法
 
 （java7）put方法首先定位到Segment，然后在Segment里进行插入操作。
