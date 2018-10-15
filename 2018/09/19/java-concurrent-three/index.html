@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="cui&#39;s space">
 <meta property="og:description" content="java中的锁围绕两个方面：“使用”，“实现”。">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-09-25T14:13:57.283Z">
+<meta property="og:updated_time" content="2018-10-14T13:09:33.493Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java并发-java中的锁">
 <meta name="twitter:description" content="java中的锁围绕两个方面：“使用”，“实现”。">
@@ -264,9 +264,9 @@
 </tbody>
 </table>
 <ul>
-<li>实现；独占式获取同步状态的关键点：</li>
+<li>实现：</li>
 </ul>
-<ol>
+<h4 id="独占式获取同步状态的关键点"><a href="#独占式获取同步状态的关键点" class="headerlink" title="独占式获取同步状态的关键点"></a>独占式获取同步状态的关键点</h4><ol>
 <li>AQS依赖内部的同步队列（一个FIFO的双向队列）来完成同步状态的管理。同步队列中节点（Node）用来保存获取同步状态失败的线程引用、等待状态以及前驱节点和后继节点。</li>
 <li>通过调用AQS的acquire(int arg)方法可以获取同步状态。</li>
 <li>首先调用SpecificSynchronizer实现的tryAcquire(int arg)，该方法保证线程安全的获取同步状态。</li>
@@ -282,7 +282,14 @@
 <blockquote>
 <p><a href="https://github.com/legend9207/concurrent_code/blob/master/src/com/roocon/thread/ta4/Main.java" target="_blank" rel="noopener">https://github.com/legend9207/concurrent_code/blob/master/src/com/roocon/thread/ta4/Main.java</a></p>
 </blockquote>
-<h3 id="3-重入锁"><a href="#3-重入锁" class="headerlink" title="3. 重入锁"></a>3. 重入锁</h3><h3 id="4-读写锁"><a href="#4-读写锁" class="headerlink" title="4. 读写锁"></a>4. 读写锁</h3>
+<h3 id="3-重入锁"><a href="#3-重入锁" class="headerlink" title="3. 重入锁"></a>3. 重入锁</h3><ul>
+<li><p>tryAcquire增加了再次获取同步状态的逻辑：判断当前线程是否为获取锁的线程；如果是，则将同步状态的值增加并返回true，表示获取同步状态成功。</p>
+</li>
+<li><p>tryRelease会判断，在经过前面n-1次的tryRelease后；判断此次的同步状态是否为0，如果是，则将占有线程设为null，并返回true，表示释放成功。</p>
+</li>
+</ul>
+<h3 id="4-读写锁"><a href="#4-读写锁" class="headerlink" title="4. 读写锁"></a>4. 读写锁</h3><p><em>待完成</em></p>
+
       
 
       
@@ -379,6 +386,15 @@
 
   
 <nav id="article-nav">
+  
+    <a href="/2018/10/10/java-concurrent-four/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          java并发-java并发容器和框架
+        
+      </div>
+    </a>
   
   
     <a href="/2018/09/13/java-concurrent-two/" id="article-nav-older" class="article-nav-link-wrap">

@@ -6,15 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2018 | cui&#39;s space</title>
+  <title>java并发-java并发容器和框架 | cui&#39;s space</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="cui&#39;s space">
-<meta property="og:url" content="http://yoursite.com/archives/2018/index.html">
+  <meta name="description" content="并发容器和框架">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java并发-java并发容器和框架">
+<meta property="og:url" content="http://yoursite.com/2018/10/10/java-concurrent-four/index.html">
 <meta property="og:site_name" content="cui&#39;s space">
+<meta property="og:description" content="并发容器和框架">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-10-15T14:41:56.957Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="cui&#39;s space">
+<meta name="twitter:title" content="java并发-java并发容器和框架">
+<meta name="twitter:description" content="并发容器和框架">
   
     <link rel="alternative" href="/atom.xml" title="cui&#39;s space" type="application/atom+xml">
   
@@ -132,184 +136,162 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-java-concurrent-four" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/10/13/java-concurrent-five/" class="archive-article-date">
-  	<time datetime="2018-10-13T03:48:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-10-13</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/10/13/java-concurrent-five/">java并发-线程池和Executor</a>
+    <h1 class="article-title" itemprop="name">
+      java并发-java并发容器和框架
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/10/10/java-concurrent-four/" class="archive-article-date">
+        
+        <a href="/2018/10/10/java-concurrent-four/" class="archive-article-date">
   	<time datetime="2018-10-10T13:56:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-10-10</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/10/10/java-concurrent-four/">java并发-java并发容器和框架</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="并发容器和框架"><a href="#并发容器和框架" class="headerlink" title="并发容器和框架"></a>并发容器和框架</h2><a id="more"></a>
+<h3 id="1-ConcurrentHashMap的实现原理和使用"><a href="#1-ConcurrentHashMap的实现原理和使用" class="headerlink" title="1. ConcurrentHashMap的实现原理和使用"></a>1. ConcurrentHashMap的实现原理和使用</h3><p><em>HashMap在并发操作下引起死循环的原因：<br>在执行put()方法时会使Entry链表形成环形数据结构，一旦形成环形链表，Entry的next节点永远不为空，就会产生死循环获取Entry。
+</em></p>
+<h4 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h4><p>（java7）ConcurrentHashMap由Segment数组和HashEntry数组结构组成。Segment是一种可重入锁（ReentrantLock）;HashEntry用于存储键值对数据。<br>一个Segment里包含一个HashEntry数组，每个HashEntry是一个链表结构的元素。<br>每个Segment守护着一个HashEntry数组里的元素，当对HashEntry数组进行修改时，必须获得与它对应的Segment锁。</p>
+<p>（java8）多了一种数据结构-红黑树，当链表长度大于8就会被转化为红黑树。</p>
+<h4 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h4><p>（java7）initialCapacity-初始化ConcurrentHashMap容量为16；loadFactor-负载因子为0.75；ConcurrencyLevel-并发级别为16，理论上，如果线程的操作分布在不同的Segment上，<br>，则最多支持16个线程并发写。</p>
+<p>（java8）</p>
+<h4 id="get方法"><a href="#get方法" class="headerlink" title="get方法"></a>get方法</h4><p>（java7）经过一次hash算法定位到Segment，再经过一次hash算法定位到HashEntry。<br>基于volatile的内存语义，所以get操作没有加锁。</p>
+<p>（java8）计算hash值，根据hash值找到数组对应位置；根据该位置处的节点性质进行相应查找：<br>如果该位置为null，就返回null，如果找到对应值，就返回该节点的值，如果是正在扩容，或者是红黑树，在调用find方法，如果是链表，则进行遍历查找。</p>
+<h4 id="put方法"><a href="#put方法" class="headerlink" title="put方法"></a>put方法</h4><p>（java7）put方法首先定位到Segment，然后在Segment里进行插入操作。<br>插入操作有两个步骤：<br>一是判断是否需要对Segment里的HashEntry数组进行扩容；<br>二是定位添加元素的位置，然后将其放到HashEntry数组里。</p>
+<p>（java8）1，初始化数组；2，找到hash值对应的数组下表，然后用CAS尝试放入新值；3，数据迁移；4，遍历及放入链表；5，调用红黑树并插入；6，链表转换为红黑树</p>
+<h3 id="2-ConcurrentLinkedQueue"><a href="#2-ConcurrentLinkedQueue" class="headerlink" title="2. ConcurrentLinkedQueue"></a>2. ConcurrentLinkedQueue</h3><h3 id="3-java中的阻塞队列"><a href="#3-java中的阻塞队列" class="headerlink" title="3. java中的阻塞队列"></a>3. java中的阻塞队列</h3><h3 id="4-Fork-Join框架"><a href="#4-Fork-Join框架" class="headerlink" title="4. Fork/Join框架"></a>4. Fork/Join框架</h3>
+      
 
-        <div class="article-info info-on-right">
-          
-          
-
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>Yo<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/img/alipay.png">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2018/10/10/java-concurrent-four/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/09/19/java-concurrent-three/" class="archive-article-date">
-  	<time datetime="2018-09-19T12:32:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-19</time>
-</a>
-        </div>
-    	 
+<nav id="article-nav">
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/09/19/java-concurrent-three/">java并发-java中的锁</a>
-    </h1>
+    <a href="/2018/10/13/java-concurrent-five/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          java并发-线程池和Executor
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/09/19/java-concurrent-three/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">java并发-java中的锁</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+
+  
+    <div class="duoshuo"></div>
   
 
-        <div class="article-info info-on-right">
-          
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/09/13/java-concurrent-two/" class="archive-article-date">
-  	<time datetime="2018-09-13T13:29:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-13</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/09/13/java-concurrent-two/">java并发-并发编程基础</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/09/03/java-concurrent-one/" class="archive-article-date">
-  	<time datetime="2018-09-03T13:33:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-03</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/09/03/java-concurrent-one/">java并发-java内存模型</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/07/21/hello-world/" class="archive-article-date">
-  	<time datetime="2018-07-21T08:36:43.995Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-21</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/07/21/hello-world/">Hello World</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -336,8 +318,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
